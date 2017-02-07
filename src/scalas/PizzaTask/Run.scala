@@ -12,14 +12,14 @@ object Run extends App {
   println("PizzaMap")
   pizza.printPizzaMap
 
-  println(pizza.findOtherIngredient(0, 0))
-  val (r, c) = pizza.findOtherIngredient(0, 0)
-  val beginPoint = pizza.Point(0, 0)
-  val endPoint = pizza.Point(r, c)
+  var alongIngredient = pizza.findAloneIngredient
+  while (alongIngredient != pizza.Point(-1, -1)) {
+    val otherIng = pizza.findOtherIngredient(alongIngredient.row, alongIngredient.col)
+    if (pizza.isEmptyRec(alongIngredient, pizza.Point(otherIng._1, otherIng._2)))
+      pizza.fillRec(alongIngredient, pizza.Point(otherIng._1, otherIng._2))
 
-  if (pizza.isEmptyRec(beginPoint, endPoint)) {
-    pizza.fillRec(beginPoint, endPoint)
     println("PizzaMap")
     pizza.printPizzaMap
+    alongIngredient = pizza.findAloneIngredient
   }
 }

@@ -11,7 +11,7 @@ class Pizza {
     */
   val pizza = Array(
     Array("T", "T", "T"),
-    Array("T", "T", "M")
+    Array("T", "M", "M")
   )
 
   /**
@@ -28,18 +28,16 @@ class Pizza {
     )
   }
 
-  findOtherIngredient(0, 0)
-
-  def findOtherIngredient(row : Int, col : Int) : (Int, Int) = {
-    val char = pizza(row)(col)
+  def findOtherIngredient(point: Point): Point = {
+    val char = pizza(point.row)(point.col)
     var notFound = true
-    var res = (row, col)
-    for {r <- row until pizza.length
-         c <- col until pizza(0).length
+    var res = point
+    for {r <- point.row until pizza.length
+         c <- point.col until pizza(0).length
          if notFound } {
       if (pizza(r)(c) != char) {
         notFound = !notFound
-        res = (r, c)
+        res = Point(r, c)
       }
     }
     res
@@ -66,6 +64,17 @@ class Pizza {
       pizzaMap(r)(c) = sliceCount
     }
     sliceCount += 1
+  }
+
+  def findAloneIngredient: Point = {
+    var result = Point(-1, -1)
+    for {row <- pizzaMap.indices
+         col <- pizzaMap(0).indices
+         if result == Point(-1, -1)} {
+      if (pizzaMap(row)(col) == 0) result = Point(row, col)
+    }
+
+    result
   }
 }
 
