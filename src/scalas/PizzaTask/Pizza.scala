@@ -1,23 +1,20 @@
 package scalas.PizzaTask
 
-class Pizza {
+case class Point(row : Int, col : Int)
 
-  case class Point(row : Int, col : Int)
+class Pizza(inputArr : Array[Array[String]]) {
 
-  var sliceCount = 1
+  private var sliceCount = 1
 
   /**
     * Matrix with ingredients
     */
-  val pizza = Array(
-    Array("T", "T", "T"),
-    Array("T", "M", "M")
-  )
+  val pizza = inputArr
 
   /**
     * Matrix with rectangles of slice
     */
-  val pizzaMap = Array.ofDim[Int](2, 3)
+  val pizzaMap = Array.ofDim[Int](pizza.length, pizza(0).length)
 
   def printPizza = printMatrix(pizza)
   def printPizzaMap = printMatrix(pizzaMap)
