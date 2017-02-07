@@ -6,9 +6,9 @@ package scalas.PizzaTask
 object Run extends App {
 
   val inputPizza = Array(
-    Array("T", "T", "T"),
-    Array("T", "M", "M"),
-    Array("T", "T", "T")
+    Array("T", "T", "T", "T", "T"),
+    Array("T", "M", "M", "M", "T"),
+    Array("T", "T", "T", "T", "T")
   )
   
   val pizza = new Pizza(inputPizza)
@@ -21,7 +21,7 @@ object Run extends App {
   var alongIngredient = pizza.findAloneIngredient
   while (alongIngredient != Point(-1, -1)) {
     val otherIng = pizza.findOtherIngredient(alongIngredient)
-    
+    val isFindOtherIng = otherIng != alongIngredient
     if (pizza.isEmptyRec(alongIngredient, otherIng))
       pizza.fillRec(alongIngredient, otherIng)
 

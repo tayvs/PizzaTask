@@ -5,6 +5,8 @@ case class Point(row : Int, col : Int)
 class Pizza(inputArr : Array[Array[String]]) {
 
   private var sliceCount = 1
+  
+  private var lastPoint = Point(0, 0)
 
   /**
     * Matrix with ingredients
@@ -63,6 +65,8 @@ class Pizza(inputArr : Array[Array[String]]) {
     sliceCount += 1
   }
 
+  
+  
   def findAloneIngredient: Point = {
     var result = Point(-1, -1)
     for {row <- pizzaMap.indices
