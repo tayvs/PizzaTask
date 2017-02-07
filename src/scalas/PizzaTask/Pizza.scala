@@ -1,38 +1,48 @@
 package scalas.PizzaTask
 
-case class Point(row : Int, col : Int)
+case class Point(row: Int, col: Int)
 
-class Pizza(inputArr : Array[Array[String]]) {
+class Pizza(inputArr: Array[Array[String]]) {
 
   private var sliceCount = 1
 
   /**
     * Matrix with ingredients
     */
-  val pizza = inputArr
+  val pizza: Array[Array[String]] = inputArr
 
   /**
     * Matrix with rectangles of slice
+    * - Positive numbers means, that ingredient into some group
+    * - Zero is default value
+    * - -1 means, that this ingredient can't find opposite one in some range
     */
-  val pizzaMap = Array.ofDim[Int](pizza.length, pizza(0).length)
+  val pizzaMap: Array[Array[Int]] = Array.ofDim[Int](pizza.length, pizza(0).length)
 
-  def printPizza = printMatrix(pizza)
-  def printPizzaMap = printMatrix(pizzaMap)
+  def printPizza(): Unit = printMatrix(pizza)
 
-  def printMatrix[T](mat : Array[Array[T]]) = {
+  def printPizzaMap(): Unit = printMatrix(pizzaMap)
+
+  def printMatrix[T](mat: Array[Array[T]]): Unit = {
     mat.foreach(row =>
       println(row.mkString(" "))
     )
   }
 
+  /**
+    * Searching for opposite ingredient
+    *
+    * @param point start point
+    * @return point of opposite ingredient
+    */
   def findOtherIngredient(point: Point): Point = {
     val char = pizza(point.row)(point.col)
     var notFound = true
     var res = point
     for {r <- point.row until pizza.length
          c <- point.col until pizza(0).length
-         if notFound } {
-      if (pizza(r)(c) != char) {
+         if notFound} {
+      if (pizza(r)(c) != char && pizzaMap(r)(c) == 0) {
         notFound = !notFound
         res = Point(r, c)
       }
@@ -41,11 +51,35 @@ class Pizza(inputArr : Array[Array[String]]) {
   }
 
   /**
+    * Searching for opposite ingredient
+    *
+    * @param point start point
+    * @return point of opposite ingredient
+    */
+  def findOtherIngredient(point: Point, minCount: Int, maxSlice: Int): Point = {
+    val char = pizza(point.row)(point.col)
+    var notFound = true
+    var res = point
+    for {r <- point.row until pizza.length
+         c <- point.col until pizza(0).length
+         if notFound
+         if square(point, Point(r, c)) <= maxSlice
+         if isContainMinIngredient(point, Point(r, c), minCount)} {
+      if (pizza(r)(c) != char && pizzaMap(r)(c) == 0) {
+        notFound = !notFound
+        res = Point(r, c)
+      }
+    }
+    if (res == point) pizzaMap(point.row)(point.col) = -1
+    res
+  }
+
+  /**
     * @param begin (row, col)
-    * @param end (row, col)
+    * @param end   (row, col)
     * @return true if rectangle not fill other's numbers (not part of other slice)
     */
-  def isEmptyRec(begin : Point, end : Point): Boolean = {
+  def isEmptyRec(begin: Point, end: Point): Boolean = {
     var recIsEmpty = true
     for {r <- begin.row to end.row
          c <- begin.col to end.col
@@ -55,7 +89,7 @@ class Pizza(inputArr : Array[Array[String]]) {
     recIsEmpty
   }
 
-  def fillRec(begin : Point, end : Point) = {
+  def fillRec(begin: Point, end: Point): Unit = {
     for {r <- begin.row to end.row
          c <- begin.col to end.col} {
       pizzaMap(r)(c) = sliceCount
@@ -72,6 +106,23 @@ class Pizza(inputArr : Array[Array[String]]) {
     }
 
     result
+  }
+
+  def square(begin: Point, end: Point): Int = {
+    (end.row - begin.row + 1) * (end.col - begin.col + 1)
+  }
+
+  def isContainMinIngredient(begin: Point, end: Point, min: Int): Boolean = {
+    var tCount, mCount = 0
+    for {
+      r <- begin.row to end.row
+      c <- begin.col to end.col
+    } {
+      if (pizza(r)(c) == "T") tCount += 1
+      if (pizza(r)(c) == "M") mCount += 1
+    }
+
+    tCount >= min && mCount >= min
   }
 }
 
