@@ -6,27 +6,29 @@ package scalas.PizzaTask
 object Run extends App {
 
   val inputPizza = Array(
-    Array("T", "T", "T", "T", "T"),
-    Array("T", "M", "M", "M", "T"),
-    Array("T", "T", "T", "T", "T")
+    Array("T", "T", "T", "T", "T", "T"),
+    Array("T", "T", "T", "M", "M", "T")
+    //    Array("T", "T", "T", "T", "T")
   )
   
   val pizza = new Pizza(inputPizza)
   
   println("Pizza")
-  pizza.printPizza
+  pizza.printPizza()
   println("PizzaMap")
-  pizza.printPizzaMap
+  pizza.printPizzaMap()
 
   var alongIngredient = pizza.findAloneIngredient
   while (alongIngredient != Point(-1, -1)) {
-    val otherIng = pizza.findOtherIngredient(alongIngredient)
-    val isFindOtherIng = otherIng != alongIngredient
+    println("alongIngredient at " + alongIngredient)
+    val otherIng = pizza.findOtherIngredient(alongIngredient, 1, 6)
+    println("otherIngredient at " + otherIng)
+    
     if (pizza.isEmptyRec(alongIngredient, otherIng))
       pizza.fillRec(alongIngredient, otherIng)
 
     println("PizzaMap")
-    pizza.printPizzaMap
+    pizza.printPizzaMap()
     alongIngredient = pizza.findAloneIngredient
   }
 }
