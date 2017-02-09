@@ -6,9 +6,9 @@ package scalas.PizzaTask
 object Run extends App {
 
   val inputPizza = Array(
-    Array("T", "T", "T", "T", "T", "T"),
-    Array("T", "T", "T", "M", "M", "T")
-    //    Array("T", "T", "T", "T", "T")
+    Array("T", "T", "T", "T", "T"),
+    Array("T", "T", "M", "M", "T"),
+    Array("T", "T", "T", "T", "T")
   )
   
   val pizza = new Pizza(inputPizza)

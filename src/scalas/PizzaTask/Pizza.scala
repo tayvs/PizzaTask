@@ -128,5 +128,18 @@ class Pizza(inputArr: Array[Array[String]]) {
 
     tCount >= min && mCount >= min
   }
+  
+  def getRangeOfMultipliers(num : Int): IndexedSeq[IndexedSeq[(Int, Int)]] = {
+    (1 to num).map(getMultipliers)
+  }
+  
+  def getMultipliers(num: Int): IndexedSeq[(Int, Int)] = {
+    for {
+      i <- 1 to math.sqrt(num).toInt
+      if num % i == 0
+    } yield (i, num / i)
+  }
+  
+  
 }
 
