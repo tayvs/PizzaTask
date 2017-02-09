@@ -5,7 +5,7 @@ case class Point(row: Int, col: Int)
 class Pizza(inputArr: Array[Array[String]]) {
 
   private var sliceCount = 1
-  
+
   private var lastPoint = Point(0, 0)
 
   /**
@@ -62,11 +62,14 @@ class Pizza(inputArr: Array[Array[String]]) {
     val char = pizza(point.row)(point.col)
     var notFound = true
     var res = point
-    for {r <- point.row until pizza.length
-         c <- point.col until pizza(0).length
-         if notFound
-         if square(point, Point(r, c)) <= maxSlice
-         if isContainMinIngredient(point, Point(r, c), minCount)} {
+    for {
+      r <- point.row until pizza.length
+      c <- point.col until pizza(0).length
+      if notFound
+      if square(point, Point(r, c)) <= maxSlice
+      if isEmptyRec(point, Point(r, c))
+      if isContainMinIngredient(point, Point(r, c), minCount)
+    } {
       if (pizza(r)(c) != char && pizzaMap(r)(c) == 0) {
         notFound = !notFound
         res = Point(r, c)
@@ -99,8 +102,7 @@ class Pizza(inputArr: Array[Array[String]]) {
     sliceCount += 1
   }
 
-  
-  
+
   def findAloneIngredient: Point = {
     var result = Point(-1, -1)
     for {row <- pizzaMap.indices
@@ -128,18 +130,18 @@ class Pizza(inputArr: Array[Array[String]]) {
 
     tCount >= min && mCount >= min
   }
-  
-  def getRangeOfMultipliers(num : Int): IndexedSeq[IndexedSeq[(Int, Int)]] = {
+
+  def getRangeOfMultipliers(num: Int): IndexedSeq[IndexedSeq[(Int, Int)]] = {
     (1 to num).map(getMultipliers)
   }
-  
+
   def getMultipliers(num: Int): IndexedSeq[(Int, Int)] = {
     for {
       i <- 1 to math.sqrt(num).toInt
       if num % i == 0
     } yield (i, num / i)
   }
-  
-  
+
+
 }
 
