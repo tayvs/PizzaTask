@@ -32,9 +32,9 @@ val vars: List[List[(Int, Int)]] = for {
   )
 }
 
-val varients = vars.flatten.toSet
+val variants = vars.flatten.toSet
 
-val positions = varients.map(dx =>
+val positions = variants.map(dx =>
   Point(position.row + dx._1, position.col + dx._2)
 )
 
