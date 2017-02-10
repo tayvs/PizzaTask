@@ -30,7 +30,7 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
       println(row.mkString(" "))
     )
   }
-  
+
 //  /**
 //    * Searching for opposite ingredient
 //    *
@@ -135,9 +135,37 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
     tCount >= min && mCount >= min
   }
   
-//  def getAvailableMultipliers(num: Int) = {
-//
-//  }
+  def getAvailableMultipliers(position: Point, num: Int) = {
+    var availableCount = 0
+    
+    val rangeOfMultiplier = getRangeOfMultipliers(num)
+    println(position)
+    for {
+      multipliers <- rangeOfMultiplier
+      (dRow, dCol) <- multipliers
+    } {
+      println(dRow, dCol)
+      //top-right
+      val top1: Point = Point(position.row - (dRow - 1), position.col - (dCol - 1))
+      if (isValidPoint(top1)) {
+        println(top1)
+        availableCount += 1
+      }
+      val top2: Point = Point(position.row - (dCol - 1), position.col - (dRow - 1))
+      if (isValidPoint(top2)) {
+        println(top2)
+        availableCount += 1
+      }
+      //right
+      //bottom
+      //left
+    }
+  }
+  
+  
+  def isValidPoint(pos: Point): Boolean = {
+    (0 <= pos.row && pos.row < pizzaMap.length) && (0 <= pos.col && pos.col < pizzaMap(0).length)
+  }
   
   def getRangeOfMultipliers(num: Int): IndexedSeq[IndexedSeq[(Int, Int)]] = {
     (1 to num).map(getMultipliers)
