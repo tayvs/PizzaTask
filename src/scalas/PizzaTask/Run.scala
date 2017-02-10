@@ -1,5 +1,7 @@
 package scalas.PizzaTask
 
+import scalas.PizzaTask.util.Point
+
 /**
   * Created by tayvs on 07.02.2017.
   */
