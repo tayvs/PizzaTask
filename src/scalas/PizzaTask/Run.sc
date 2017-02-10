@@ -11,3 +11,6 @@ val pizza = new Pizza(inputPizza)
 pizza.getRangeOfMultipliers(10).foreach{
   println(_)
 }
+
+
+//def z
