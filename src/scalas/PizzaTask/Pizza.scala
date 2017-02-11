@@ -79,8 +79,8 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
 
   def fillRec(begin: Point, end: Point): Unit = {
     for {
-      r <- begin.row to end.row
-      c <- begin.col to end.col
+      r <- math.min(begin.row, end.row) to math.max(begin.row, end.row)
+      c <- math.min(begin.col, end.col) to math.max(begin.col, end.col)
     } {
       pizzaMap(r)(c) = sliceCount
     }
@@ -107,8 +107,8 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
   def isContainMinIngredient(begin: Point, end: Point, min: Int): Boolean = {
     var tCount, mCount = 0
     for {
-      r <- begin.row to end.row
-      c <- begin.col to end.col
+      r <- math.min(begin.row, end.row) to math.max(begin.row, end.row)
+      c <- math.min(begin.col, end.col) to math.max(begin.col, end.col)
     } {
       if (pizza(r)(c) == "T") tCount += 1
       if (pizza(r)(c) == "M") mCount += 1

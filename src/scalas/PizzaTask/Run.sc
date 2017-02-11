@@ -24,3 +24,5 @@ val positions = variants.map(dx =>
 )
 
 positions.foreach(println)
+
+
