@@ -84,6 +84,7 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
     } {
       pizzaMap(r)(c) = sliceCount
     }
+    printPizzaMap()
     sliceCount += 1
   }
 
@@ -101,7 +102,7 @@ class Pizza(inputArr: Array[Array[String]], minIngredientCount: Int, maxSliceSiz
   }
 
   def square(begin: Point, end: Point): Int = {
-    (end.row - begin.row + 1) * (end.col - begin.col + 1)
+    (math.abs(end.row - begin.row) + 1) * (math.abs(end.col - begin.col) + 1)
   }
 
   def isContainMinIngredient(begin: Point, end: Point, min: Int): Boolean = {

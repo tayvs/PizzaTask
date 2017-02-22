@@ -60,7 +60,7 @@ object Numbers {
     vars.flatten.toSet.toSeq
   }
 
-  @deprecated
+
   def getRangeOfMultipliers(from: Int, max: Int): IndexedSeq[IndexedSeq[(Int, Int)]] = {
     (from to max).map(getMultipliers)
   }
@@ -81,5 +81,25 @@ object Numbers {
 
     list.flatten
   }
+
+  def normalizeRecCoordinates(f: Point, s: Point): (Point, Point) = {
+    (
+      Point(
+        math.min(f.row, s.row), math.min(f.col, s.col)
+      ),
+      Point(
+        math.max(f.row, s.row), math.max(f.col, s.col)
+      )
+    )
+  }
+
+  def isInnerRec(fBegin: Point, fEnd: Point, sBegin: Point, sEnd: Point): Boolean = {
+    (fBegin.row <= sBegin.row && fBegin.col <= sBegin.col) &&
+      (fEnd.row >= sEnd.row && fEnd.col >= sEnd.col)
+  }
+
+  //  def isAllRecInner(set : Set[Point]) : Boolean = {
+  //
+  //  }
 
 }
